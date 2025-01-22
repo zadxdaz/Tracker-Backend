@@ -4,6 +4,11 @@ from app.models import db, Pago, Servicio
 
 pagos_bp = Blueprint('pagos', __name__)
 
+@pagos_bp.route('/spagos', methods=['OPTIONS'])
+def handle_options():
+    if request.method == "OPTIONS":
+        return 'ok',200
+
 # Crear un nuevo pago
 @pagos_bp.route('/pagos', methods=['POST'])
 @login_required
@@ -23,6 +28,7 @@ def crear_pago():
     nuevo_pago = Pago(
         servicio_id=servicio.id,
         monto=data['monto'],
+        periodo=data.get('periodo'),
         estado=data.get('estado', 'pendiente'),  # Estado por defecto
         fecha_pago=data.get('fecha_pago')  # Puede ser None o un valor válido
     )
@@ -33,6 +39,7 @@ def crear_pago():
         "id": nuevo_pago.id,
         "servicio_id": nuevo_pago.servicio_id,
         "monto": nuevo_pago.monto,
+        "periodo":nuevo_pago.periodo,
         "estado": nuevo_pago.estado,
         "fecha_pago": nuevo_pago.fecha_pago
     }}), 201
@@ -49,6 +56,7 @@ def listar_pagos(servicio_id):
     return jsonify([{
         "id": pago.id,
         "monto": pago.monto,
+        "periodo":pago.periodo,
         "estado": pago.estado,
         "fecha_pago": pago.fecha_pago
     } for pago in pagos])
@@ -67,6 +75,7 @@ def obtener_pago(id):
         "id": pago.id,
         "servicio_id": pago.servicio_id,
         "monto": pago.monto,
+        "periodo": pago.periodo,
         "estado": pago.estado,
         "fecha_pago": pago.fecha_pago
     })
@@ -84,6 +93,7 @@ def actualizar_pago(id):
     data = request.json
     pago.monto = data.get('monto', pago.monto)
     pago.estado = data.get('estado', pago.estado)
+    pago.periodo = data.get('periodo',pago.periodo)
     pago.fecha_pago = data.get('fecha_pago', pago.fecha_pago)
     db.session.commit()
 
@@ -91,6 +101,7 @@ def actualizar_pago(id):
         "id": pago.id,
         "servicio_id": pago.servicio_id,
         "monto": pago.monto,
+        "periodo":pago.periodo,
         "estado": pago.estado,
         "fecha_pago": pago.fecha_pago
     }})

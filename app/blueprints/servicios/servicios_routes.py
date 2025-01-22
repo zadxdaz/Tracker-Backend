@@ -25,7 +25,6 @@ def crear_servicio():
     nuevo_servicio = Servicio(
         usuario_id=current_user.id,
         nombre=data.get('nombre'),
-        costo_mensual=data.get('costo_mensual'),
         frecuencia=data.get('frecuencia', 'mensual')  # Valor por defecto
     )
     db.session.add(nuevo_servicio)
@@ -34,7 +33,6 @@ def crear_servicio():
     return jsonify({"mensaje": "Servicio creado exitosamente", "servicio": {
         "id": nuevo_servicio.id,
         "nombre": nuevo_servicio.nombre,
-        "costo_mensual": nuevo_servicio.costo_mensual,
         "frecuencia": nuevo_servicio.frecuencia,
         "fecha_creacion": nuevo_servicio.fecha_creacion
     }}), 201
@@ -47,7 +45,6 @@ def listar_servicios():
     return jsonify([{
         "id": servicio.id,
         "nombre": servicio.nombre,
-        "costo_mensual": servicio.costo_mensual,
         "frecuencia": servicio.frecuencia,
         "fecha_creacion": servicio.fecha_creacion
     } for servicio in servicios])
@@ -62,7 +59,6 @@ def obtener_servicio(id):
     return jsonify({
         "id": servicio.id,
         "nombre": servicio.nombre,
-        "costo_mensual": servicio.costo_mensual,
         "frecuencia": servicio.frecuencia,
         "fecha_creacion": servicio.fecha_creacion
     })
@@ -79,14 +75,12 @@ def actualizar_servicio(id):
 
     # Actualizar campos
     servicio.nombre = data.get('nombre', servicio.nombre)
-    servicio.costo_mensual = data.get('costo_mensual', servicio.costo_mensual)
     servicio.frecuencia = data.get('frecuencia', servicio.frecuencia)
     db.session.commit()
 
     return jsonify({"mensaje": "Servicio actualizado exitosamente", "servicio": {
         "id": servicio.id,
         "nombre": servicio.nombre,
-        "costo_mensual": servicio.costo_mensual,
         "frecuencia": servicio.frecuencia,
         "fecha_creacion": servicio.fecha_creacion
     }})

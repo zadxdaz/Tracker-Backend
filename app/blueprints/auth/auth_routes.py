@@ -31,6 +31,7 @@ def login():
 
     # Almacenar la URL de redirección en la sesión
     session['next_url'] = next_url
+    print(next_url)
 
 
     # Descubrir la URL de autorización de Google
