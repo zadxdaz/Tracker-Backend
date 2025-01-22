@@ -1,0 +1,43 @@
+# Entornos virtuales
+venv/
+.env/
+__pycache__/
+
+# Archivos de configuración sensibles
+*.env
+*.key
+*.pem
+
+# Archivos de logs
+*.log
+logs/
+*.out
+*.err
+
+# Archivos de bases de datos SQLite (si usas SQLite para desarrollo)
+*.sqlite3
+*.db
+
+# Caches de Python
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Archivos creados por herramientas de desarrollo
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Archivos de dependencias
+*.egg-info/
+dist/
+build/
+
+# Librerías descargadas
+pip-wheel-metadata/
+pip-log.txt
+
+# Otros
+instance/
